@@ -156,8 +156,11 @@ contract SupplyChain {
   function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) onlyOwner public 
   {
     // Add the new item as part of Harvest
-    items[sku] = Item({sku: sku, upc: _upc, originFarmerID: _originFarmerID, originFarmName: _originFarmName, originFarmInformation: _originFarmInformation, originFarmLatitude: _originFarmLatitude, _originFarmLongitude: originFarmLongitude, productNotes: _productNotes});
-    // Increment sku_productNotes
+    items[sku] = Item({sku: sku, upc: _upc, ownerID: owner, originFarmerID: _originFarmerID, originFarmName: _originFarmName, 
+                       originFarmInformation: _originFarmInformation, originFarmLatitude: _originFarmLatitude,
+                       originFarmLongitude: _originFarmLongitude, productID: sku + upc, productNotes: _productNotes, productPrice: 0, 
+                       itemState: State.Harvested, distributorID: 0, retailerID: 0, consumerID: 0});
+    // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
     emit Harvested(_upc);
