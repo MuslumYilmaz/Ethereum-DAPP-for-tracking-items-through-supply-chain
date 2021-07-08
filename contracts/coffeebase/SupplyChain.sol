@@ -120,7 +120,7 @@ contract SupplyChain {
   
   // Define a modifier that checks if an item.state of a upc is Shipped
   modifier shipped(uint _upc) {
-
+    require(items[_upc].itemState == State.Shipped);
     _;
   }
 
@@ -234,7 +234,7 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     sold(_upc)
     // Call modifier to verify caller of this function
-    onlyOwner
+    verifyCaller(items[_upc].seller)
     {
     // Update the appropriate fields
         items[_upc].itemState = State.Shipped;
@@ -246,7 +246,7 @@ contract SupplyChain {
   // Use the above modifiers to check if the item is shipped
   function receiveItem(uint _upc) public 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    shipped(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     {
     // Update the appropriate fields - ownerID, retailerID, itemState
