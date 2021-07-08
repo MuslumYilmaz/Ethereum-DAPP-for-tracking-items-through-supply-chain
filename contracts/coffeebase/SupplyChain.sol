@@ -114,7 +114,7 @@ contract SupplyChain {
 
   // Define a modifier that checks if an item.state of a upc is Sold
   modifier sold(uint _upc) {
-
+    require(items[_upc].itemState == State.Sold);
     _;
   }
   
@@ -232,14 +232,14 @@ contract SupplyChain {
   // Use the above modifers to check if the item is sold
   function shipItem(uint _upc) public 
     // Call modifier to check if upc has passed previous supply chain stage
-    
+    sold(_upc)
     // Call modifier to verify caller of this function
-    
+    onlyOwner
     {
     // Update the appropriate fields
-    
+        items[_upc].itemState = State.Shipped;
     // Emit the appropriate event
-    
+        emit Shipped(_upc);
   }
 
   // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
