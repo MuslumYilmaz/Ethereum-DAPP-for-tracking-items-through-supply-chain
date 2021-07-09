@@ -1,6 +1,9 @@
 pragma solidity ^0.4.24;
+
+import "../coffeeaccesscontrol/RetailerRole.sol";
+
 // Define a contract 'Supplychain'
-contract SupplyChain {
+contract SupplyChain is RetailerRole {
 
   // Define 'owner'
   address owner;
@@ -217,7 +220,6 @@ contract SupplyChain {
     // Call modifer to send any excess ether back to buyer
     checkValue(_upc)
     {
-    
     // Update the appropriate fields - ownerID, distributorID, itemState
         items[_upc].ownerID = msg.sender;
         items[_upc].distributorID = msg.sender;
@@ -234,7 +236,7 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     sold(_upc)
     // Call modifier to verify caller of this function
-    verifyCaller(items[_upc].seller)
+    verifyCaller(items[_upc].distributorID)
     {
     // Update the appropriate fields
         items[_upc].itemState = State.Shipped;
@@ -248,11 +250,15 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     shipped(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
+    onlyRetailer
     {
     // Update the appropriate fields - ownerID, retailerID, itemState
+        items[_upc].ownerID = msg.sender;
+        items[_upc].retailerID = msg.sender;
+        items[_upc].itemState = State.Received;
     
     // Emit the appropriate event
-    
+        emit Received(upc);
   }
 
   // Define a function 'purchaseItem' that allows the consumer to mark an item 'Purchased'
