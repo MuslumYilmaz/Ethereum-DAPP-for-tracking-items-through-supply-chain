@@ -15,7 +15,10 @@ in another terminal: npm run dev
 Contract address: 0x3d9fb981cd44b2b01a463a04ae7ce5da36d855d9,
 transaction hash: 0x4562096388b0083067ab224c6dea4b3ed569c7173441eeb6866b0aacb16a7ee7,
 
-Libraries used: "@truffle/hdwallet-provider": "^1.4.1" (used in order to deploy contract to the rinkeby network),
+Libraries used: truffle: (development environment, testing framework and asset pipeline for blockchains using the Ethereum Virtual Machine (EVM)),
+                web3: (helps us to view blockchain environment on frontend side)
+                "truffle/hdwallet-provider": "^1.4.1" (used in order to deploy contract to the rinkeby network),
+                
 
 Version numbers:
 Node: v12.17.0,
